@@ -36,7 +36,15 @@
     "passport-oauth2": "1.x.x",
     "oauth": "0.9.x"
   },
+  "devDependencies": {
+    "mocha": "2.x.x",
+    "chai": "2.x.x",
+    "chai-passport-strategy": "0.2.x"
+  },
   "engines": {
     "node": ">= 0.4.0"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha"
   }
 }
