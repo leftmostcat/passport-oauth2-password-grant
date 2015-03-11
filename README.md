@@ -65,6 +65,10 @@ example:
 		};
 	}
 
+	app.get('/auth/handler', authenticate(), function(req, res) {
+		res.redirect('/');
+	});
+
 #### User Profile Retrieval
 
 In order to retrieve profile information for the authenticating user, a subclass
