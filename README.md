@@ -32,7 +32,7 @@ prototypes:
 The following demonstrates how to construct and use a PasswordGrantStrategy
 object:
 
-	var PasswordGrantStrategy =  require('passport-oauth2-password-grant');
+	var PasswordGrantStrategy = require('passport-oauth2-password-grant');
 
 	passport.use(new PasswordGrantStrategy({
 		tokenURL: 'https://www.example.com/oauth2/token',
