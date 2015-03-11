@@ -1,0 +1,8 @@
+test/
+
+.npmignore
+node_modules/
+
+.gitignore
+
+.travis.yml
