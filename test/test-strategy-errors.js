@@ -2,7 +2,8 @@ var PasswordGrantStrategy = require('..'),
     chai = require('chai'),
 	passport = require('chai-passport-strategy');
 
-var InternalOAuthError = require('passport-oauth2').InternalOAuthError,
+var AuthorizationError = require('passport-oauth2').AuthorizationError,
+    InternalOAuthError = require('passport-oauth2').InternalOAuthError,
     TokenError = require('passport-oauth2').TokenError;
 
 var expect = chai.expect;
@@ -45,7 +46,7 @@ describe('PasswordGrantStrategy', function() {
     });
   });
 
-  describe('that encounters a node-oauth object literal error with OAuth-compatible body obtaining an access token', function() {
+  describe('that encounters a node-oauth object literal error with OAuth-compatible body indicating invalid credentials', function() {
     var strategy = new PasswordGrantStrategy({
       tokenURL: 'https://www.example.com/oauth2/token',
       clientID: 'foo'
@@ -73,10 +74,46 @@ describe('PasswordGrantStrategy', function() {
         .authenticate({ username: 'foo', password: 'bar' });
     });
 
-    it('should error', function() {
-      expect(err).to.be.an.instanceof(TokenError)
+    it('should return authorization error', function() {
+      expect(err).to.be.an.instanceof(AuthorizationError)
       expect(err.message).to.equal('The provided username or password was incorrect.');
       expect(err.code).to.equal('invalid_grant');
+      expect(err.oauthError).to.be.undefined;
+    });
+  });
+
+  describe('that encounters a node-oauth object literal error with OAuth-compatible body indicating invalid client ID', function() {
+    var strategy = new PasswordGrantStrategy({
+      tokenURL: 'https://www.example.com/oauth2/token',
+      clientID: 'foo'
+    },
+    function(accessToken, refreshToken, params, profile, done) {
+      if (accessToken == '2YotnFZFEjr1zCsicMWpAA' && refreshToken == 'tGzv3JOkF0XG5Qx2TlKWIA') {
+        return done(null, { id: '1234' }, { message: 'Hello' });
+      }
+      return done(null, false);
+    });
+
+    // inject a "mock" oauth2 instance
+    strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
+      return callback({ statusCode: 400, data: '{"error":"invalid_client","error_description":"Invalid client ID."} '});
+    };
+
+    var err;
+
+    before(function(done) {
+      chai.passport.use(strategy)
+        .error(function(e) {
+          err = e;
+          done();
+        })
+        .authenticate({ username: 'foo', password: 'bar' });
+    });
+
+    it('should return token error', function() {
+      expect(err).to.be.an.instanceof(TokenError)
+      expect(err.message).to.equal('Invalid client ID.');
+      expect(err.code).to.equal('invalid_client');
       expect(err.oauthError).to.be.undefined;
     });
   });
