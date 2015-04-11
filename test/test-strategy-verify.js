@@ -29,7 +29,7 @@ describe('PasswordGrantStrategy', function() {
       } else {
         callback(null, 'wrong-access-token', 'wrong-refresh-token');
       }
-    }
+    };
 
     var user, info;
 
@@ -45,12 +45,12 @@ describe('PasswordGrantStrategy', function() {
     });
 
     it('should supply user', function() {
-      expect(user).to.be.an.object;
+      expect(user).to.be.an('object');
       expect(user.id).to.equal('1234');
     });
 
     it('should supply info', function() {
-      expect(info).to.be.an.object;
+      expect(info).to.be.an('object');
       expect(info.message).to.equal('Hello');
     });
 
@@ -82,7 +82,7 @@ describe('PasswordGrantStrategy', function() {
       } else {
         callback(null, 'wrong-access-token', 'wrong-refresh-token');
       }
-    }
+    };
 
     var user, info;
 
@@ -98,12 +98,12 @@ describe('PasswordGrantStrategy', function() {
     });
 
     it('should supply user', function() {
-      expect(user).to.be.an.object;
+      expect(user).to.be.an('object');
       expect(user.id).to.equal('1234');
     });
 
     it('should supply info', function() {
-      expect(info).to.be.an.object;
+      expect(info).to.be.an('object');
       expect(info.message).to.equal('Hello');
     });
 
@@ -128,7 +128,7 @@ describe('PasswordGrantStrategy', function() {
       } else {
         callback(null, 'wrong-access-token', 'wrong-refresh-token');
       }
-    }
+    };
 
     var info;
 
@@ -142,7 +142,7 @@ describe('PasswordGrantStrategy', function() {
     });
 
     it('should supply info', function() {
-      expect(info).to.be.an.object;
+      expect(info).to.be.an('object');
       expect(info.message).to.equal('Invite required');
     });
   });

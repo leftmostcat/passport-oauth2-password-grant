@@ -25,7 +25,7 @@ describe('PasswordGrantStrategy', function() {
     // inject a "mock" oauth2 instance
     strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
       return callback(new Error('something went wrong'));
-    }
+    };
 
     var err;
 
@@ -60,7 +60,7 @@ describe('PasswordGrantStrategy', function() {
     // inject a "mock" oauth2 instance
     strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
       return callback({ statusCode: 400, data: '{"error":"invalid_grant","error_description":"The provided username or password was incorrect."} '});
-    }
+    };
 
     var err;
 
@@ -110,7 +110,7 @@ describe('PasswordGrantStrategy', function() {
     });
 
     it('should error', function() {
-      expect(err).to.be.an.instanceof(InternalOAuthError)
+      expect(err).to.be.an.instanceof(InternalOAuthError);
       expect(err.message).to.equal('Failed to obtain access token');
       expect(err.oauthError.statusCode).to.equal(400);
       expect(err.oauthError.data).to.equal('{"error_code":"invalid_grant"}');
@@ -132,7 +132,7 @@ describe('PasswordGrantStrategy', function() {
     // inject a "mock" oauth2 instance
     strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
       return callback({ statusCode: 500, data: 'Something went wrong'});
-    }
+    };
 
     var err;
 
@@ -146,7 +146,7 @@ describe('PasswordGrantStrategy', function() {
     });
 
     it('should error', function() {
-      expect(err).to.be.an.instanceof(InternalOAuthError)
+      expect(err).to.be.an.instanceof(InternalOAuthError);
       expect(err.message).to.equal('Failed to obtain access token');
       expect(err.oauthError.statusCode).to.equal(500);
       expect(err.oauthError.data).to.equal('Something went wrong');
@@ -169,7 +169,7 @@ describe('PasswordGrantStrategy', function() {
       } else {
         return callback(null, 'wrong-access-token', 'wrong-refresh-token');
       }
-    }
+    };
 
     var err;
 
@@ -204,7 +204,7 @@ describe('PasswordGrantStrategy', function() {
       } else {
         return callback(null, 'wrong-access-token', 'wrong-refresh-token');
       }
-    }
+    };
 
     var err;
 
